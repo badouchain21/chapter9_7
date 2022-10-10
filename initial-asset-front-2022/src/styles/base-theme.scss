@@ -1,0 +1,6 @@
+// 必须使用主题化，ui组件的样式的颜色才会同步，统一UI颜色风格
+$--color-primary: $primary;
+$--color-danger: $danger;
+/* 改变 icon 字体路径变量，必需 */
+$--font-path: '~element-ui/lib/theme-chalk/fonts';
+@import "~element-ui/packages/theme-chalk/src/index";

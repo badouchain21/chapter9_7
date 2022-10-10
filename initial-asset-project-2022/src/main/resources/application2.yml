@@ -1,0 +1,294 @@
+#============================
+#服务相关配置
+#============================
+server:
+  #端口号
+  port: @maven.server.port@
+  #session有效期，默认为1个小时
+  session:
+    timeout: @maven.server.session.timeout@
+  #tomcat相关配置
+  tomcat:
+    #编码配置
+    uri-encoding: @maven.tomcat.uriEncoding@
+    max-threads: 600
+    accept-count: 1000
+#============================
+#Spring相关配置
+#============================
+spring:
+  rabbitmq:
+    # 集群地址，用逗号分隔
+    addresses: 192.168.1.241:5674
+    connection-timeout: 15000
+    password: rbamn
+    # 使用启用消息确认模式
+    publisher-confirms: true
+    username: Rba_2021
+    virtual-host: /
+#    queue-inform-log: @maven.queue.inform.log@
+#    exchange-topics-inform: @maven.exchange.topics.inform@
+#    routingkey-log: @maven.routingkey.log@
+
+  #跨域配置
+  cross:
+    allow: @maven.spring.cross.allow@
+  #数据源配置
+  datasource:
+     #连接地址
+    url: @maven.db.jdbc.connection.url@
+    #用户名
+    username: @maven.db.jdbc.username@
+    #密码
+    password: @maven.db.jdbc.password@
+    #驱动
+    driver-class-name: @maven.db.jdbc.connection.driver@
+    #通过这句配置将druid连接池引入到我们的配置中，spring会尽可能判断类型是什么，然后根据情况去匹配驱动类。
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      initial-size: 10  # 初始化大小
+      min-idle: 10  # 最小
+      max-active: 600  # 最大
+      max-wait: 60000  # 配置获取连接等待超时的时间
+      time-between-eviction-runs-millis: 60000  # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      min-evictable-idle-time-millis: 30000  # 指定一个空闲连接最少空闲多久后可被清除，单位是毫秒
+      validationQuery: select 'x'
+      test-while-idle: false  # 当连接空闲时，是否执行连接测试
+      test-on-borrow: false  # 当从连接池借用连接时，是否测试该连接
+      test-on-return: false  # 在连接归还到连接池时是否测试该连接
+      filters: config,stat  # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+      poolPreparedStatements: true # 打开PSCache，并且指定每个连接上PSCache的大小
+      maxPoolPreparedStatementPerConnectionSize: 20
+      maxOpenPreparedStatements: 20
+      connectionErrorRetryAttempts: 3 # 失败重连次数
+     # breakAfterAcquireFailure: true # 关闭重连
+      # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+      connectionProperties: druid.stat.slowSqlMillis=200;druid.stat.logSlowSql=true;config.decrypt=false
+      # 合并多个DruidDataSource的监控数据
+      #use-global-data-source-stat: true
+      #WebStatFilter配置，说明请参考Druid Wiki，配置_配置WebStatFilter
+      web-stat-filter:
+        enabled: true #是否启用StatFilter默认值true
+        url-pattern: /*
+        exclusions: /druid/*,*.js,*.gif,*.jpg,*.bmp,*.png,*.css,*.ico
+        session-stat-enable: true
+        session-stat-max-count: 10
+      #StatViewServlet配置，说明请参考Druid Wiki，配置_StatViewServlet配置
+      stat-view-servlet:
+        allow: ""
+        enabled: true #是否启用StatViewServlet默认值true
+        url-pattern: /druid/*
+        reset-enable: true
+        login-username: admin
+        login-password: admin
+
+
+  redis:
+    enabled: false
+    #Redis数据库索引（默认为0）
+    database: 0
+    #Redis服务器地址
+    host: @maven.redis.servers@
+    #Redis服务器连接端口
+    port: @maven.redis.port@
+    #Redis服务器连接密码（默认为空）
+    password: @maven.redis.password@
+    # 连接超时时间（毫秒）
+    timeout: 10000
+    pool:
+      #连接池中的最大空闲连接
+      max-idle: 200
+      #连接池最大连接数（使用负值表示没有限制）
+      max-active: 1024
+      #连接池最大阻塞等待时间（使用负值表示没有限制）
+      max-wait: 10000
+      #连接池中的最小空闲连接
+      min-idle: 100
+  #activemq
+  activemq:
+    broker-url: @maven.activemq.url@
+    user: @maven.activemq.username@
+    password: @maven.activemq.password@
+                #是否使用线程池
+    pool:
+      enabled: @maven.activemq.pool.enabled@
+                 #是否信任所有包
+    packages:
+      trust-all: @maven.activemq.packages.trustAll@
+  #默认情况下，activemq使用的是queue模式，如果要使用topic模式，必须设置为true
+  jms:
+    pub-sub-domain: @maven.jms.pubSubDomain@
+  #资源相关配置
+  resources:
+    #静态资源地址配置
+    static-locations: classpath:/
+  #mvc相关配置
+  mvc:
+    #mvc静态资源配置
+    static-path-pattern: /js/**
+  #修改上传文件大小限制
+  servlet:
+    multipart:
+      max-file-size : @maven.spring.servlet.multipart.maxfilesize@
+      max-request-size : @maven.spring.servlet.multipart.maxrequestsize@
+      enabled: @maven.spring.servlet.multipart.enabled@
+  #请求相关接口
+  http:
+    #编码规则
+    encoding:
+      force: true
+      charset: UTF-8
+      enabled: true
+#jpa相关配置
+  jpa:
+    #数据库类型
+    database: @maven.spring.jpa.database@
+    #是否打印sql
+    show-sql: @maven.spring.jpa.showSql@
+    #绑定session到视图，保证事务一致性
+    open-in-view: true
+    #数据源平台
+    database-platform: @maven.spring.jpa.databasePlatform@
+    #缓存
+    cache:
+      #类型
+      type: ehcache
+      #ehcache相关配置
+      ehcache:
+        #ehcache配置文件
+        config: classpath:ehcache/ehcache-spring.xml
+    #hibernate相关配置
+    hibernate:
+      #ddl
+      ddl-auto: @maven.spring.jpa.hibernate.ddlAuto@
+      naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+      dialect: org.hibernate.dialect.MySQL5Dialect
+    #配置
+    properties:
+      open-in-view: true
+      hibernate:
+        show_sql: true
+        format-sql: true
+        #懒加载
+        enable_lazy_load_no_trans: true
+        current_session_context_class: org.springframework.orm.hibernate5.SpringSessionContext
+        cache:
+          #是否启用查询缓存
+          use_query_cache: true
+          #是否启用二级缓存
+#          use_second_level_cache: false
+          #指定配置文件
+#          provider_configuration_file_resource_path: ehcache.xml
+#          region:
+#            factory_class: org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory
+  # springboot-admin配置:
+  boot:
+    admin:
+      client:
+        url: @maven.springbootadmin.server.url@
+        instance:
+          prefer-ip: true
+          # 建议换成实际项目名称
+          name: init
+          service-base-url: @maven.springbootadmin.client.service-base-url@
+        enabled: @maven.springbootadmin.client.enabled@
+##消息处理属性配置文件
+##消息指邮件，短信等，用于对系统中关键信息出现某种状态时进行预警告警
+##公共配置项
+message:
+  system:
+    identity: badouerp
+  #以下是邮件配置项
+  #邮件控制开关，为1时启用邮件功能，0不启用
+  email:
+    switch: true
+    #邮件服务器IP或域名地址,注册的新浪地址：202.108.5.185，更改为163邮箱
+    smtpserver: email.cnooc.com.cn
+    #权限用户名
+    smtpuser:  global\sh_lhgsnhxt
+    #权限用户名对应的密码
+    smtppwd: EM@test2020.com1
+    #邮件内容的类型
+    content:
+      type: text/html
+      charset: gb2312
+    #默认接收地址（邮箱发址），多个以分号分隔
+    defaultToAddress: global\sh_lhgsnhxt
+    #默认的发送人
+    sendAddress: global\sh_lhgsnhxt
+    #是否是ssl:
+    isSSL: true
+#日志相关配置
+logging:
+  #日志文件保存路径
+  path: @maven.logging.path@
+  #日志级别
+  level:
+    #默认
+    root: error
+    #指定包路径的日志错误级别
+    com:
+      badou: @maven.logging.level.badou@
+  file: logs/info/server.log
+#debugger调试模式，后台调试接口时可以不用登陆，默认捏造一个超级管理员的登陆权限
+useDebugger:
+  enabled: @maven.useDebugger.enabled@
+
+jwt:
+  tokenHeader: Authorization #JWT存储的请求头
+  secret: bd-admin-secret #JWT加解密使用的密钥
+  expiration: 604800 #JWT的超期限时间(60*60*24*7)
+  tokenHead: 'Bearer_'  #JWT负载中拿到开头
+
+# springboot-admin配置:加载所有的端点/默认只加载了 info / health
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+      enabled: true
+    metrics:
+      enabled: true
+    logfile:
+      enabled: true
+  health:
+    mongo:
+      enabled: false
+    mail:
+      enabled: false
+    redis:
+      enabled: false
+
+web:
+  excludes: #要在拦截器中排除验证是否登录的 URI,多个用“;” 追加即可
+    url: /v2/**;*/ueditor*;*swagger*;/detect;/detect/*;*.js;*.jpg;*.htm;*.html;*.gif;*.png;*.css;*.swf;/web/*jsp;*/login.jsp;*/login;*/login;*/logout;*/loginAccredit;*/403.jsp;*/500.jsp;*/404.jsp;/fileupload/attachupload/*;/validate/*/*;/exportcompany/exportcompanylist/search;/exportcompany/exportcompanyedit/detail;/validate/*/*;/security/ssl/token/*;*/change_browser.jsp;/cfg/basedefineedit/downloadImgCache.do;/jdbc/common/appmodule*/*;/system/security/userregister/*;/attach/action/attachsupport/downloadAttach;/system/security/logon/*;/system/security/logon/findSystemInfo.do;/report/*;/system/security/logon/createCode.do;/uniapp/mobilelogon/logon.do;/uniapp/mobilebaseconfig/**;/uniapp/mobileoutwardstyle/listAppOutwardStyle.do;/uniapp/index/**;*/api/v1/**;*/platform/search/**;/blockchain/**;
+
+#区块链定时器配置
+scheduling:
+  enabled: true
+# blockchain explorer http address
+base_path: @maven.blockchain.base.path@
+context_path:  @maven.blockchain.context.path@
+monitor_path:  @maven.blockchain.monitor.path@
+
+#  Actuator config
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+      exclude: env,beans
+    health:
+      show-details: always
+  metrics:
+    tags:
+      application: ${spring.application.name}
+    export:
+      prometheus:
+        enabled: true
+
+
+

@@ -1,0 +1,35 @@
+spec:
+  replicas: 1
+  template:
+    spec:
+      volumes:
+        - name: net-class-path
+          hostPath:
+            path: /sys/class/net
+            type: ''
+        - name: net-path
+          hostPath:
+            path: /sys/devices
+            type: ''
+        - name: jar-path
+          hostPath:
+            path: /home/jar
+            type: ''
+      imagePullSecrets:
+        - name: badouregistrykey
+      containers:
+      - env:
+        - name: KUBERNETES_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        securityContext:
+          privileged: true
+        envFrom:
+          - configMapRef:
+              name: initial-project-config
+        volumeMounts:
+          - name: net-class-path
+            mountPath: /network/class/net
+          - name: net-path
+            mountPath: /network/devices

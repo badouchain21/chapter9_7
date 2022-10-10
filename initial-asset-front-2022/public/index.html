@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <!-- 如果有安装 Google Chrome Frame 插件则强制为Chromium内核，否则强制本机支持的最高版本IE内核，作用于IE浏览器 -->
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+        <!-- 强制Chromium内核，作用于360浏览器、QQ浏览器等国产双核浏览器 -->
+        <meta name="renderer" content="webkit"/>
+        <!-- 强制Chromium内核，作用于其他双核浏览器 -->
+        <meta name="force-rendering" content="webkit"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <!-- 告诉谷歌浏览器，不提供自动翻译功能 -->
+        <meta name="google" content="notranslate" />
+        <!-- <link rel="icon" href="<%= BASE_URL %>favicon.ico"> -->
+        <!-- <title><%= webpackConfig.name %></title> -->
+        <!-- 样式文件优先加载 -->
+        <% for (var i in htmlWebpackPlugin.options.cdn && htmlWebpackPlugin.options.cdn.css) { %>
+            <link href="<%= htmlWebpackPlugin.options.cdn.css[i] %>" rel="stylesheet">
+        <% } %>
+    </head>
+    <body>
+        <noscript>
+            <strong>We're sorry but <%= webpackConfig.name %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+        </noscript>
+        <div id="app"></div>
+        <!-- js加载 -->
+        <% for (var i in htmlWebpackPlugin.options.cdn && htmlWebpackPlugin.options.cdn.js) { %>
+            <script src="<%= htmlWebpackPlugin.options.cdn.js[i] %>"></script>
+        <% } %>
+    </body>
+
+    <!-- <script LANGUAGE="JAVASCRIPT"> 
+        loopy() 
+        function loopy() { 
+            var sWord ="" 
+            while (sWord != "hibow") { 
+                sWord = prompt("输入正确密码登陆! ") 
+            } 
+            alert("身份识别......允许登陆") 
+        } 
+    </script>  -->
+
+    <!-- <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="UEditor/ueditor.config.js"></script>
+    <script src="UEditor/ueditor.all.js"></script>
+    <script src="UEditor/lang/zh-cn/zh-cn.js"></script> -->
+    <!-- <script src="UEditor/ueditor.parse.min.js"></script> -->
+</html>

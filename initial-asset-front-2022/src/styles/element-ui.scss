@@ -1,0 +1,384 @@
+// cover some element-ui styles
+.el-breadcrumb__inner,
+.el-breadcrumb__inner a {
+  font-weight: 400 !important;
+}
+
+.el-upload {
+  input[type="file"] {
+    display: none !important;
+  }
+}
+
+.el-upload__input {
+  display: none;
+}
+
+
+// to fixed https://github.com/ElemeFE/element/issues/2461
+.el-dialog {
+  transform: none;
+  left: 0;
+  position: relative;
+  margin: 0 auto;
+}
+
+// refine element ui upload
+.upload-container {
+  .el-upload {
+    width: 100%;
+
+    .el-upload-dragger {
+      width: 100%;
+      height: 200px;
+    }
+  }
+}
+
+// dropdown
+.el-dropdown-menu {
+  a {
+    display: block
+  }
+}
+
+// to fix el-date-picker css style
+.el-range-separator {
+  box-sizing: content-box;
+}
+
+// 设置类型搜索输入框元素在同一行
+.el-input-group{
+    display: table;
+}
+// 显示搜索框中类型文本的展示,会影响其他
+// .el-select .el-input {
+//     width: 90px;
+// }
+.el-menu {
+    background-color: $secMenuBg;
+}
+// 左侧菜单树高度设置
+.el-menu-item, .el-submenu__title {
+    height: $appHeaderFirstMenuHeight;
+    line-height: $appHeaderFirstMenuHeight;
+}
+.el-menu--vertical {
+    .el-menu-item {
+        background: unset;
+        color: $menuText;
+        &:hover {
+            color: $menuActiveText;
+        }
+    }
+    .el-submenu__title {
+        color: $menuText;
+        background: unset !important;
+        i {
+            color: $menuText;
+        }
+        &:hover {
+            color: $menuActiveText;
+            i {
+                color: $menuActiveText
+            }
+        }
+    }
+}
+// 面包屑 --start
+.el-breadcrumb__item {
+    .el-breadcrumb__separator {
+        display: none;
+    }
+    &:last-child {
+        &:after {
+            content: '' !important;
+        }
+        
+    }
+    &:after {
+        content: '>';
+        padding: 0px 6px;
+        
+    }
+    
+}
+.el-breadcrumb__inner a, .el-breadcrumb__inner.is-link {
+    color: #333;
+}
+// 面包屑 --end
+// 按钮 --start
+.el-button {
+    border-radius: $borderRadius;
+    // bdRule-button
+    &.el-button--small {
+        height: $inputHeight;
+        line-height: $inputHeight;
+        // 优化小屏上按钮展示效果:垂直居中
+        @media screen and (max-width: $screen-middle) {
+            line-height: $inputHeight - 2px;
+        }
+        padding: 0 10px;
+    }
+}
+.el-button--medium {
+    height: $inputHeight;
+    line-height: $inputHeight;
+    padding: 0 10px;
+    .el-input__icon {
+        line-height: $inputHeight;
+    }
+}
+.el-button + .el-button {
+    margin-left: $space;
+}
+// 按钮 --end
+// table --start
+.module-list-main {
+    border: 1px solid $tableLineColor;
+    border-radius: $borderRadius;
+    .m-module-list-btn {
+        padding: 0px 10px;
+        padding-bottom: $space;
+        & + .m-module-list-panel {
+            border-top: 1px solid $tableLineColor;
+        }
+        .el-button {
+            margin-top: $space;
+            &:nth-child(1) {
+                margin-right: $space;
+            }
+            & + .el-button {
+                margin-right: $space;
+                margin-left: 0;
+            }
+            &.marginB {
+                margin-bottom: 0 !important;
+            }
+        }
+    }
+}
+// el-textarea --start
+.el-textarea .el-input__count {
+    line-height: 1;
+    display: inline-block;
+}
+// el-textarea --end
+.el-table {
+    &::before{
+        background-color: #fff;
+    }
+    thead {
+        th {
+            background: $tableTheadBg;
+            font-size: $font;
+            .cell {
+                font-weight: bold;
+                color: #111;
+            }
+
+        }  
+    }
+    tbody {
+        tr {
+            font-size: $font;
+            &:nth-child(2n) {
+                background: $tableStripeBg;
+            }
+            td {
+                border-top: 1px solid #f1f1f1;
+                border-bottom: none;
+                .cell {
+                    color: #333;
+                }
+            }
+            &:hover {
+                // 行hover时设置td背景色与阴影，构造整行tr效果
+                & > td {
+                    // hover时清除边框线色
+                    border-top: 1px solid #fff;
+                    background-color: #fff !important;
+                    box-shadow: 10px 0px 16px 2px rgba(0,0,0,0.12) !important;
+                    transition: all 0s !important;
+                }
+                // 构造tr整行悬浮效果，需要清除上边框与下边框（下边框就是下一个tr下td的borderTop）
+                & + tr {
+                    td {
+                        // hover时清除边框线色
+                        border-top: 1px solid #fff;
+                    }
+                }
+            }
+            // 避免边框线条重复，需要特殊处理第一个tr
+            &:first-child {
+                td {
+                    border-top: none;
+                }
+                &:hover {
+                    td {
+                        border-top: none;
+                    }
+                }
+            }
+            // 避免边框线条重复，需要特殊处理最后一个tr
+            &:last-child {
+                td {
+                    border-bottom: 1px solid #f1f1f1;
+                }   
+                &:hover {
+                    td {
+                        border-bottom: 1px solid #fff;
+                    }
+                }
+            }
+        }
+    }
+}
+.el-table th, .el-table td {
+    padding: 7px 0;
+    text-align: center;
+}
+.el-table__empty-block {
+    // 当搜索不到列表数据时，列表宽度可能会随着表头元素超出，没数据时就直接按父级宽度来，这样提示也会正中间
+    width: 100% !important;
+}
+// table --end
+// 分页组件 -start
+.el-pagination {
+
+    .btn-prev, 
+    .el-pager,
+    .btn-next,
+    .el-pagination__jump {
+        float: right;
+    }
+}
+// 分页组件 -end
+// input --start
+.el-form-item__error {
+    // 设置表单检验报错文字，内容过多时不被下一行遮挡
+    position: absolute;
+    z-index: 1;
+    bottom: 0;
+    right: 0;
+    left: unset;
+}
+.el-form-item__content {
+    min-height: $inputHeight;
+}
+.el-input--medium {
+    .el-input__inner {
+        height: $inputHeight;
+        line-height: $inputHeight;
+    }
+    .el-input__icon {
+        line-height: $inputHeight;
+    }
+}
+.el-input--small {
+    .el-input__inner {
+        height: $inputHeight;
+        line-height: $inputHeight;
+    }
+    .el-input__icon {
+        line-height: $inputHeight;
+        :before {
+            vertical-align: middle;
+        }
+    }
+} 
+// 解决input中前置与后置图标与文本内容无法水平对齐的问题
+.el-input__icon {
+    &:before {
+        vertical-align: middle;
+    }
+}
+// input --end
+// .el-message-box --start
+.el-message-box {
+    .el-message-box__header {
+        .el-message-box__title {
+            color: $fontCL;
+        }
+    }
+    .el-message-box__content {
+        color: $fontC;
+    }
+}
+.el-dialog {
+    .el-dialog__header {
+        .el-dialog__title {
+            color: $fontCL;
+        }
+    }
+}
+// .el-message-box --end
+// tab --start
+.el-tabs__nav-wrap {
+    &::after {
+        height: 1px;
+        background-color: $lineColor;
+    }
+}
+.el-tabs__item {
+    color: $fontC
+}
+// tab --end
+// 滚动条 --start
+.el-scrollbar {
+    height: 100%;
+    &.hiddenX {
+        .el-scrollbar__wrap{
+            overflow-x: hidden;
+          }
+    }
+}
+// 滚动条 --end
+// 弹窗菜单过长处理 --start
+.el-dropdown-menu {
+    max-height: 400px;
+    overflow: auto;
+}
+// 弹窗菜单过长处理 --end
+// 表单字体颜色 --start
+.el-form-item__label {
+    color: $fontC !important;
+}
+.el-form-item__content, input {
+    color: $fontCT  !important;
+}
+.el-form-item__content {
+    input, textarea {
+        color: $fontCT  !important;
+    }
+}
+input::-webkit-input-placeholder { /* WebKit browsers */
+    color: $placeholderC !important;
+}
+input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color: $placeholderC !important;
+}
+input::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color: $placeholderC !important;
+}
+input:-ms-input-placeholder { /* Internet Explorer 10+ */
+    color: $placeholderC !important;
+}
+
+textarea::-webkit-input-placeholder {
+    /* WebKit browsers */
+    color: $placeholderC !important;
+}
+textarea:-moz-placeholder {
+    /* Mozilla Firefox 4 to 18 */
+    color: $placeholderC !important;
+}
+textarea::-moz-placeholder {
+    /* Mozilla Firefox 19+ */
+    color: $placeholderC !important;
+}
+textarea::-ms-input-placeholder {
+    /* Internet Explorer 10+ */
+    color: $placeholderC !important;
+}
+// 表单字体颜色 --end

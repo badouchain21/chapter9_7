@@ -1,0 +1,554 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.badou</groupId>
+	<artifactId>initial-project</artifactId>
+	<version>1.0.0.SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<name>initial-project</name>
+	<description></description>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.0.0.RELEASE</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>1.8</java.version>
+		<badouFramework.version>4.0.2.dev.0612</badouFramework.version>
+		<hibernate.version>5.1.17.Final</hibernate.version>
+		<!-- 简易版代码检查配置 -->
+		<checkstyle.config.location>check-style.xml</checkstyle.config.location>
+		<!-- 阿里代码检查配置 -->
+		<!-- <checkstyle.config.location>ali-check-style.xml</checkstyle.config.location> -->
+		<fabric8.maven.plugin.version>4.0.0</fabric8.maven.plugin.version>
+		<prometheus.version>1.0.1</prometheus.version>
+		<!--safecompile start-->
+		<!--通过参数传入机器码,多个用,隔开-->
+		<license.code></license.code>
+		<!--通过参数传入有效期-->
+		<license.time></license.time>
+		<!--是否对源码进行加密,不填插件内部默认为true,通过-Dlicense.encryptJar=xx替换-->
+		<license.encryptJar>false</license.encryptJar>
+		<!--加密的密码-->
+		<license.password>888888</license.password>
+		<!--safecompile end-->
+	</properties>
+
+	<profiles>
+		<!-- 开发环境 -->
+		<profile>
+			<id>dev</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<!-- server相关配置 -->
+				<maven.server.port>8080</maven.server.port>
+				<maven.server.session.timeout>3600</maven.server.session.timeout>
+				<maven.tomcat.uriEncoding>UTF-8</maven.tomcat.uriEncoding>
+				<!-- 跨域配置 -->
+				<maven.spring.cross.allow>http://localhost:8000,*,http://localhost:8080</maven.spring.cross.allow>
+				<!-- 是否启用debugger模式 -->
+ 			 	<maven.useDebugger.enabled>true</maven.useDebugger.enabled>
+				<!-- 数据库配置信息 -->
+				<maven.db.jdbc.connection.driver><![CDATA[com.mysql.jdbc.Driver]]></maven.db.jdbc.connection.driver>
+	 			<maven.db.jdbc.connection.url><![CDATA[jdbc:mysql://localhost:3306/init-asset?characterEncoding=UTF-8&useSSL=false]]></maven.db.jdbc.connection.url>
+				<maven.db.jdbc.username>root</maven.db.jdbc.username>
+				<maven.db.jdbc.password><![CDATA[root]]></maven.db.jdbc.password>
+				<maven.hibernate.cache.use_second_level_cache><![CDATA[false]]></maven.hibernate.cache.use_second_level_cache>
+				<maven.hibernate.show_sql><![CDATA[true]]></maven.hibernate.show_sql>
+				<maven.hibernate.mappingDirectory><![CDATA[/WEB-INF/hibernate]]></maven.hibernate.mappingDirectory>
+				<maven.hibernate.dialect><![CDATA[org.hibernate.dialect.MySQL5InnoDBDialect]]></maven.hibernate.dialect>
+				<maven.db.maximumConnectionCount><![CDATA[10]]></maven.db.maximumConnectionCount>
+				<maven.db.minimumConnectionCount><![CDATA[5]]></maven.db.minimumConnectionCount>
+				<!-- ActiveMq 相关配置 -->
+				<maven.activemq.url>tcp://192.168.1.241:15674</maven.activemq.url>
+				<maven.activemq.username>rbamn</maven.activemq.username>
+				<maven.activemq.password>Rba_2021</maven.activemq.password>
+				<maven.activemq.pool.enabled>true</maven.activemq.pool.enabled>
+				<maven.activemq.packages.trustAll>true</maven.activemq.packages.trustAll>
+				<maven.jms.pubSubDomain>true</maven.jms.pubSubDomain>
+				<!-- memcached 配置信息 实际应用中与redis配置二选一 但是配置必须存在-->
+				<maven.memcached.servers><![CDATA[localhost:11211]]></maven.memcached.servers>
+				<maven.memcached.failover><![CDATA[true]]></maven.memcached.failover>
+				<maven.memcached.initConn><![CDATA[10]]></maven.memcached.initConn>
+				<maven.memcached.minConn><![CDATA[10]]></maven.memcached.minConn>
+				<maven.memcached.maxConn><![CDATA[1000]]></maven.memcached.maxConn>
+				<maven.memcached.maintSleep><![CDATA[30]]></maven.memcached.maintSleep>
+				<maven.memcached.nagle><![CDATA[false]]></maven.memcached.nagle>
+				<maven.memcached.socketTO><![CDATA[3000]]></maven.memcached.socketTO>
+				<maven.memcached.aliveCheck><![CDATA[true]]></maven.memcached.aliveCheck>
+				<!-- redis 配置信息 实际应用中与memcache配置二选一 但是配置必须存在-->
+				<maven.redis.servers><![CDATA[localhost]]></maven.redis.servers>
+				<maven.redis.port><![CDATA[63791]]></maven.redis.port>
+				<maven.redis.password><![CDATA[123456]]></maven.redis.password>
+				<!-- 文件上传地址 -->
+				<maven.attach.save.path><![CDATA[/home/bduser43/attach]]></maven.attach.save.path>
+				<!-- Spring相关配置 -->
+				<!-- Spring servlet相关配置 -->
+				<maven.spring.servlet.multipart.maxfilesize>10MB</maven.spring.servlet.multipart.maxfilesize>
+				<maven.spring.servlet.multipart.maxrequestsize>30MB</maven.spring.servlet.multipart.maxrequestsize>
+				<maven.spring.servlet.multipart.enabled>true</maven.spring.servlet.multipart.enabled>
+				<!-- Spring jpa相关配置 -->
+				<maven.spring.jpa.database>MYSQL</maven.spring.jpa.database>
+				<maven.spring.jpa.showSql>true</maven.spring.jpa.showSql>
+				<maven.spring.jpa.databasePlatform>org.hibernate.dialect.MySQL5InnoDBDialect</maven.spring.jpa.databasePlatform>
+				<!-- JPA Hibernate 相关配置 -->
+				<maven.spring.jpa.hibernate.ddlAuto>none</maven.spring.jpa.hibernate.ddlAuto>
+				<!-- Spring 相关配置结束 -->
+				<!-- logging日志相关配置 -->
+				<maven.logging.path>logs/log</maven.logging.path>
+				<!-- com.badou包下打印日志  -->
+				<maven.logging.level.badou>info</maven.logging.level.badou>
+				<!-- 是否保存到文件服务器 -->
+				<maven.attach.save.to.server><![CDATA[false]]></maven.attach.save.to.server>
+				<!-- 云中心地址 -->
+ 			 	<maven.platform.url><![CDATA[http://cloud.badousoft.com/center/]]></maven.platform.url>
+				<!-- Spring Boot Admin Server的URL -->
+				<maven.springbootadmin.server.url>http://192.168.1.221:5658</maven.springbootadmin.server.url>
+				<!-- 本地的ip和项目端口 -->
+				<maven.springbootadmin.client.service-base-url>http://192.168.1.59:8081</maven.springbootadmin.client.service-base-url>
+				<!-- 是否启用Spring Boot Admin Client 开发环境不启用 -->
+				<maven.springbootadmin.client.enabled><![CDATA[true]]></maven.springbootadmin.client.enabled>
+
+				<maven.blockchain.base.path>http://badouchain.test.com/explorer/</maven.blockchain.base.path>
+				<maven.blockchain.context.path>http://192.168.1.112:8080</maven.blockchain.context.path>
+				<maven.blockchain.monitor.path>http://badouchain.test.com/setting-api/api/monitor/</maven.blockchain.monitor.path>
+				<maven.tomcat_max_threads>500</maven.tomcat_max_threads>
+				<maven.tomcat_accept_count>1000</maven.tomcat_accept_count>
+			</properties>
+		</profile>
+	</profiles>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+	        <groupId>org.springframework.boot</groupId>
+	        <artifactId>spring-boot-starter-data-jpa</artifactId>
+	   </dependency>
+
+		<!-- HTTPClient START -->
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+		</dependency>
+		<!-- HTTPClient END -->
+
+	<!-- web支持 START -->
+		<dependency>
+        	<groupId>org.springframework.boot</groupId>
+        	<artifactId>spring-boot-starter-web</artifactId>
+        	<exclusions>
+        		<exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+           		</exclusion>
+           		<exclusion>
+				   <groupId>ch.qos.logback</groupId>
+				   <artifactId>logback-classic</artifactId>
+				</exclusion>
+				<exclusion>
+				   <groupId>ch.qos.logback</groupId>
+				   <artifactId>logback-core</artifactId>
+				</exclusion>
+        	</exclusions>
+ 		</dependency>
+ 		<!--  web支持 END -->
+
+
+ 		<!-- 热启动 START -->
+ 		<!-- <dependency>
+	        <groupId>org.springframework.boot</groupId>
+	        <artifactId>spring-boot-devtools</artifactId>
+	        <optional>false</optional>
+   		</dependency> -->
+   		<!-- 热启动 END -->
+
+ 		<!-- ActiveMQ START -->
+ 		<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-activemq</artifactId>
+        </dependency>
+        <!-- ActiveMQ END -->
+
+ 		<!-- MYSQL START -->
+ 		 <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+        <!-- Spring Boot JDBC -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+        </dependency>
+        <!-- MYSQL END -->
+
+		<!-- badouFramework START -->
+		<!-- <dependency>
+			<groupId>com.badou</groupId>
+			<artifactId>bdPlugin-bpms</artifactId>
+			<version>4.0.2.dev</version>
+		</dependency> -->
+
+		<dependency>
+			<groupId>com.badou</groupId>
+			<artifactId>bdPlugin-appengine</artifactId>
+			<version>4.0.2.dev.0612</version>
+
+		</dependency>
+
+		<dependency>
+			<groupId>com.badou</groupId>
+			<artifactId>badouFramework-starter</artifactId>
+			<version>${badouFramework.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.badou</groupId>
+			<artifactId>bdPlugin-message</artifactId>
+			<version>4.0.2.dev.0306</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.badou</groupId>
+			<artifactId>bdPlugin-logs</artifactId>
+			<version>4.0.2.dev.0612</version>
+		</dependency>
+
+		<!-- <dependency>
+			<groupId>com.badou</groupId>
+			<artifactId>bdPlugin-monitor</artifactId>
+			<version>${badouFramework.version}</version>
+		</dependency> -->
+		<!-- badouFramework END -->
+
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpmime</artifactId>
+			<version>4.4.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>jsp-api</artifactId>
+			<version>2.1</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-cache</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-ehcache</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>net.sf.ehcache</groupId>
+					<artifactId>ehcache-core</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+		    <groupId>com.fasterxml.jackson.datatype</groupId>
+		    <artifactId>jackson-datatype-hibernate5</artifactId>
+		</dependency>
+
+		<dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-core</artifactId>
+                <version>${hibernate.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>xml-apis</artifactId>
+                        <groupId>xml-apis</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-entitymanager</artifactId>
+                <version>${hibernate.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>xml-apis</artifactId>
+                        <groupId>xml-apis</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <!--因配置外部TOMCAT 而配置-->
+            <dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-tomcat</artifactId>
+				<scope>provided</scope>
+			</dependency>
+
+
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.17</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
+		</dependency>
+
+		<!-- spring-boot-admin客户端 -->
+		<dependency>
+			<groupId>de.codecentric</groupId>
+			<artifactId>spring-boot-admin-starter-client</artifactId>
+			<version>2.0.0</version>
+		</dependency>
+
+		<!-- Spring Boot Actuator对外暴露引用的监控信息, Jolokia提供使用HTTP接口获取json -->
+		<dependency>
+			<groupId>org.jolokia</groupId>
+			<artifactId>jolokia-core</artifactId>
+			<version>1.6.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+
+		<!-- Druid -->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid-spring-boot-starter</artifactId>
+			<version>1.1.22</version>
+		</dependency>
+
+		<!-- 八斗移动端插件 -->
+		<dependency>
+			<groupId>com.badou</groupId>
+			<artifactId>bdPlugin-uniapp-manager</artifactId>
+			<version>${badouFramework.version}</version>
+		</dependency>
+		<!-- BDC_SDK START -->
+		<dependency>
+			<groupId>com.badou</groupId>
+			<artifactId>bdc4j</artifactId>
+			<version>1.0.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/src/main/resources/lib/blockchain-sdk-1.0.0.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>org.zz</groupId>
+			<artifactId>gmhelper</artifactId>
+			<version>0.0.1</version>
+		</dependency>
+		<!-- zeroMQ START -->
+		<dependency>
+			<groupId>org.zeromq</groupId>
+			<artifactId>jeromq</artifactId>
+			<version>0.4.3</version>
+		</dependency>
+		<!-- zeroMQ END -->
+
+		<dependency>
+			<groupId>io.micrometer</groupId>
+			<artifactId>micrometer-registry-prometheus</artifactId>
+			<version>${prometheus.version}</version>
+		</dependency>
+
+		<!-- rabbit mq-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-amqp</artifactId>
+		</dependency>
+		<!--rabbit mq -->
+
+	</dependencies>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>Finchley.RELEASE</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<plugins>
+			<!-- <plugin> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-maven-plugin</artifactId>
+				</plugin> -->
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<mainClass>com.badou.InitialApplication</mainClass>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>2.16</version>
+				<configuration>
+					<configLocation>src/main/resources/checkstyle/${checkstyle.config.location}</configLocation>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>io.fabric8</groupId>
+				<artifactId>fabric8-maven-plugin</artifactId>
+				<version>${fabric8.maven.plugin.version}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>resource</goal>
+							<goal>build</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<images>
+						<image>
+							<name>badouchain/${project.artifactId}:${project.version}</name>
+							<build>
+								<from>registry.badouchain.com/java-alpine-openjdk8-jdk</from>
+								<assembly>
+									<descriptor>assembly.xml</descriptor>
+									<targetDir>/deployments</targetDir>
+								</assembly>
+							</build>
+						</image>
+					</images>
+				</configuration>
+			</plugin>
+
+			<!--
+				备注:两种加密方式
+				1,加密源码和绑定机器码的方式
+				启动方式:java -javaagent:加密后的jar -jar 加密后的jar
+				加密参数说明:
+					code 必填,客户机的机器码,只能在对应的机器上运行该项目
+					time 必填,有效期,只能在有效期内运行
+					password 必填 项目启动的密码
+				加密方式:
+					maven:mvn clean package safe-compile:safecompile -Dlicense.code=XX ...
+				2,不加密源码只绑定机器码的方式
+				启动方式:java -jar 加密后的jar
+				加密参数说明:
+					code 必填,客户机的机器码,只能在对应的机器上运行该项目
+					time 必填,有效期,只能在有效期内运行
+					encryptJar 必填 false为不加密源码
+				加密方式:同上
+				-->
+
+<!--			<plugin>-->
+
+<!--				<groupId>com.badou</groupId>-->
+<!--				<artifactId>safe-compile-maven-plugin</artifactId>-->
+<!--				<version>1.0.0.RELEASE</version>-->
+<!--				<configuration>-->
+<!--					&lt;!&ndash;<password>${license.password}</password>&ndash;&gt;&lt;!&ndash;加密打包之后pom.xml会被删除，不用担心在jar包里找到此密码&ndash;&gt;-->
+<!--					<code>${license.code}</code> &lt;!&ndash;机器码&ndash;&gt;-->
+<!--					<time>${license.time}</time> &lt;!&ndash;有效期&ndash;&gt;-->
+<!--					<encryptJar>${license.encryptJar}</encryptJar>-->
+<!--				</configuration>-->
+<!--				<executions>-->
+<!--					<execution>-->
+<!--						<goals>-->
+<!--							<goal>safecompile</goal>-->
+<!--						</goals>-->
+<!--					</execution>-->
+<!--				</executions>-->
+<!--			</plugin>-->
+
+		</plugins>
+
+		<resources>
+			<resource>
+				<directory>src/main/resources/lib</directory>
+				<targetPath>BOOT-INF/lib</targetPath>
+				<includes>
+					<include>**/*.jar</include>
+				</includes>
+			</resource>
+
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+				<includes>
+					<include>**/**</include>
+				</includes>
+			</resource>
+		</resources>
+	</build>
+
+	<repositories>
+		<repository>
+			<id>spring-milestones</id>
+			<name>Spring Milestones</name>
+			<url>https://repo.spring.io/milestone</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+
+		<repository>
+			<id>sdFramework-public</id>
+			<url>http://47.104.171.174:8081/nexus/content/groups/public/</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</repository>
+		<repository>
+			<id>baas-repo</id>
+			<url>http://maven.bubidev.cn/content/groups/public/ </url>
+		</repository>
+
+		<repository>
+			<id>snapshots-repo</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+
+	</repositories>
+
+</project>

@@ -1,0 +1,7 @@
+org.springframework.context.ApplicationListener=com.badou.project.common.listener.JwebapStartUpListener,com.badou.project.common.listener.QuartzStartupLoaderListener,com.bdc.base.listener.BaseAssetListener
+
+#BaseAssetListenerorg.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+#  com.badou.SessionFactoryConfig,\
+#  com.badou.WebAppConfigurer,\
+#  com.badou.project.common.listener.ListenerConfig,\
+#  com.bdc.scheduling.Scheduler

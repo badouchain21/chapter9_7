@@ -1,0 +1,523 @@
+// 存放项目业务相关css
+.el-button {
+    .bd-icon {
+        margin-right: 5px;
+    }
+}
+// padding默认
+.padding { padding: $space; }
+.noPadding { padding: 0; }
+// 默认底部margin
+.marginB { margin-bottom: $space; }
+
+.defaultBg { background: $contentInBg; }
+// 限制页面模块最大化,内部滚动,外部不参与滚动
+.limited {
+    height: calc(100vh - #{$appHeaderHeight} - #{$locationHeight} - #{$space}) !important;
+}
+// 表单模块样式---start
+$signWidth: 4px;
+$signHeight: 16px;
+// 作用于标题icon
+.bd-icon {
+    &.pillar {
+        width: 1em !important;
+        margin: 0 -5px;
+    }
+    &.point {
+        width: 0.4em !important;
+    }
+}
+.formPage {
+    border-radius: $borderRadius;
+    .form-title {
+        height: $formTitleHeight;
+        line-height: $formTitleHeight;
+        font-size: $font;
+        font-weight: 600;
+        padding: 0px $space;
+        color: $fontCL;
+        border-bottom: 1px solid $lineColor;
+        display: flex;
+        align-items: center;
+    }
+}
+.m-tab {
+    .form-title {
+        // tab标签下不使用表单自带标题
+        display: none;
+    }
+}
+$formItemHorDic: 24px;
+.form-main {
+    padding: $space;
+    overflow-x: hidden;
+    .m-form {
+        .m-form-item {
+            position: relative;
+            padding-right: $formItemHorDic;
+            font-size: 0;
+            // 考虑验证失败的错误提醒在文本域底部,需要足够空间展示
+            margin-bottom: $formItemDis + 10px;
+            display: flex;
+            .m-form-item-label {
+                font-size: $font;
+                color: $fontC;
+                display: inline-block;
+                line-height: $inputHeight;
+                vertical-align: top;
+                text-align: right;
+                padding-right: $padding;
+                flex: 0 1 auto;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                .require-sign {
+                    display: inline-block;
+                    line-height: $inputHeight;
+                    vertical-align: middle;
+                    color: $danger;
+                }
+            }
+            .m-form-item-content {
+                font-size: $font;
+                color: $fontCT;
+                display: inline-block;
+                flex: 1;
+                .has-error {
+                    .invalid-feedback {
+                        font-size: $fontS !important;
+                        width: 100%;
+                        position: absolute;
+                        bottom: -$font;
+                        right: 0;
+                        display: block;
+                        top: $inputHeight;
+                        padding-right: $formItemHorDic;
+                        text-align: right;
+                        z-index: 1;
+                    }
+                }
+            }
+            
+        }
+    }
+}
+.m-module-view {
+    .m-form {
+        padding: $padding;
+        background: $formViewBg;
+        border-radius: $borderRadius;
+        .m-form-item {
+            .m-form-item-label {
+                text-align: left;
+                line-height: unset;
+                padding-right: $padding + 5px;
+                &:after {
+                    content: ':';
+                    position: absolute;
+                }
+            }
+        }
+    }
+}
+// 重写表单样式准备 --start
+.bdFormItem {
+    width: 200px;
+    margin-right: $space;
+    display: inline-block;
+    margin-bottom: $space;
+    vertical-align: top;
+    & > div {
+        // 部分表单组件有自己的样式宽度,需要处理,根据父亲定制宽度,其作为儿子自动铺满
+        width: 100% !important;
+    }
+}
+// 重写表单样式准备 --end
+// 表单模块样式---end
+// 设置系统辅助色：红色
+.danger-color { color: $danger; }
+.text-danger { color: $danger !important;max-height: 20px }
+// 导航条动效 --start
+.bd-nav {
+    border-bottom: 1px solid $firMenuBg;
+    
+    // .bd-nav-item {
+    //     position: relative;
+    //     &.is-active {
+    //         &:after {
+    //             content: '';
+    //             height: 4px;
+    //             width: 100%;
+    //             background-color: #fff;
+    //             position: absolute;
+    //             left: 0;
+    //             bottom: 0;
+    //         }
+    //     }
+    // }
+    .bd-nav-bar {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 0;
+        height: 4px;
+        background-color: #fff;
+        transition: all .2s linear, left .2s linear, width .5s linear, transform .2s linear;
+        
+    }
+}
+// 导航条动效 --end
+// =====================================================
+// 树型列表模块 --start
+.m-tree-list {
+    display: flex;
+    height: 100%;
+    max-width: 100%;
+    background: $contentOutBg;
+    .m-tree-main {
+        position: relative;
+        width: 250px;
+        transition-timing-function: cubic-bezier(0.98, 0, 0.22, 0.98);
+        transition-duration: 0.4s;
+        transition-property: width;
+        border-radius: $borderRadius;
+        background: $contentInBg;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        // border: 1px solid #fff; // 不需要加白边，树样式会多一条
+        border-top: none;
+        flex: 0 0 auto;
+        .tree-title {
+            justify-content: space-between;
+            display: flex;
+            padding: $space;
+            background: $primary;
+            color: $contentInBg;
+            flex-shrink: 0;
+            .name {
+                position: relative;
+                display: inline-block;
+                left: 0;
+                flex-basis: 200px;
+                transition-timing-function: cubic-bezier(0.98, 0, 0.22, 0.98);
+                transition-duration: 0.5s;
+                transition-property: all;
+            }
+        }
+        .el-scrollbar {
+            height: 100%;
+            left: 0;
+            transition-timing-function: cubic-bezier(0.98, 0, 0.22, 0.98);
+            transition-duration: 0.6s;
+            transition-property: left;
+            .el-scrollbar__wrap {
+                // 控制横向滚动条随着数据扩展自动宽度铺满去展示横向滚动条
+                .el-tree > .el-tree-node{
+                    min-width: 100%;
+                    display: inline-block;
+                }
+                .m-tree {
+                    padding-right: 10px;
+                    padding-bottom: 10px;
+                    .bd-icon {
+                        color: $primary !important;
+                    }
+                }
+            }
+        }
+        &.is-hide {
+            width: 40px;
+            .tree-title {
+                .name {
+                    left: -250px;
+                    flex-basis: 0;
+                }
+            }
+            .el-scrollbar {
+                left: -250px;
+            }
+            & + .m-treeList {
+                flex: 1 1 0;
+            }
+        } 
+    }
+    .m-treeList {
+        overflow-x: hidden;
+        flex: 1 1 0;
+        margin-left: $space;
+        border-radius: $borderRadius;
+        padding: $space;
+        background: $contentInBg;
+    }
+}
+// 树型列表模块 --end
+// 编辑页底部固定  --start
+.fixBottomBtn {
+    height: $footerHeight;
+    line-height: $footerHeight;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    background: #fff;
+    text-align: center;
+    position: absolute;
+    z-index: 600;
+    box-shadow: 0px 9px 15px 3px rgba(102,102,102,0.5)
+}
+// 编辑页底部固定  --end
+// tab --start
+.m-tab {
+    border: 1px solid $lineColor;
+    border-radius: $borderRadius;
+    .el-tabs__header {
+        padding: 0px $padding;
+        margin: 0;
+        .el-tabs__active-bar {
+            height: 3px;
+        }
+        .el-tabs__item {
+            &.is-active {
+                font-weight: 600;
+            }
+        }
+        .el-tabs__nav-wrap {
+            &::after {
+                height: 0;
+            }
+        }
+    }
+    .el-tabs__content {
+        margin: 0 $padding $padding;
+        padding: $padding;
+        border: 1px solid $lineColor;
+        border-radius: $borderRadius;
+    }
+    .border {
+        .el-tabs__header {
+            border-bottom: 1px solid $lineColor;
+        }
+        .el-tabs__content {
+            margin: 0;
+            border: none;
+        }
+        
+    }
+    &.noBorder {
+        border: none;
+        .el-tabs__content {
+            border-left: none;
+            border-right: none;
+            border-bottom: none;
+        }
+    }
+}
+// tab --end
+// 滚动条处理, 在滚动组件el-scrollbar上面添加类名:hideX
+.el-scrollbar.hideX {
+    .el-scrollbar__wrap {
+        // 隐藏原有的横向滚动条(丑),展示el-scrollbar的横向滚动条
+        overflow-x: hidden !important;
+    }
+}
+// 滚动条处理
+
+.m-base-form {
+    border-radius: $borderRadius;
+    .base-form {
+        padding: $padding $padding;
+        .onlyOneColumn {
+            width: 50%;
+            margin: auto;
+        }
+        &.view {
+            .el-form-item {
+                margin-bottom: 6px;
+                .el-form-item__label {
+                    text-align: left;
+                    span {
+                        &:after {
+                            content: ':'
+                        }
+                    }
+                }
+                .el-form-item__content {
+                    color: $fontCT !important;
+                }
+            }
+            .secForm {
+                border-bottom: none;
+                background: $formViewBg;
+            }
+        }
+    }
+    .el-col {
+        padding: 0 16px;
+    }
+    .el-form-item__label-wrap {
+        margin-left: 0!important;
+    }
+    .el-form-item {
+        display: flex;
+        .el-form-item__label {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            // span {
+                // 设置max-width，留出必填*位置
+                // max-width: calc(100% - 14px);
+                // display: inline-block;
+                // overflow: hidden;
+                // text-overflow: ellipsis;
+                // white-space: nowrap;
+                // vertical-align: bottom;
+            // }
+        }
+        .el-form-item__content {
+            flex: 1;
+        }
+    }
+    .el-form--inline {
+        .el-form-item {
+            margin-right: 0px;
+            &.isBlock {
+                flex-direction: column;
+                .el-form-item__label {
+                    text-align: left;
+                    width: 100% !important;
+                    
+                }
+                .el-form-item__content {
+                    width: 100% !important;
+                }
+            }
+            &.isShowAllLabel {
+                .el-form-item__label {
+                    width: unset !important;
+                }
+                .el-form-item__content {
+                    width: unset !important;
+                }
+            }
+            .el-form-item__content {
+                .richText {
+                    // 只对编辑状态的行高设置，富文本工具栏才不会受到行高影响
+                    .editStatus {
+                        line-height: normal;
+                    }
+                }
+            }
+        }
+    }
+    .form-title {
+        height: $formTitleHeight;
+        line-height: $formTitleHeight;
+        font-size: $font;
+        font-weight: 600;
+        padding: 0px $padding;
+        color: $fontCL;
+        border-bottom: 1px solid $lineColor;
+    }
+    .secForm {
+        // padding-top: $padding;
+        background: #fff;
+        border-bottom: 1px solid $lineColor;
+        border-radius: $borderRadius;
+        &:last-child {
+            border-bottom: none;
+        }
+        .title {
+            padding-bottom: $padding;
+            font-weight: bold;
+        }
+        & + .secForm {
+            margin-top: 10px;
+        }
+    }
+    &.firForm {
+        .secForm {
+            .title {
+                color: $primary;
+            }
+        }
+    }
+}
+// 设置表单下组件元素宽度铺满
+@mixin setCover {
+    .el-select,
+    .el-date-editor,
+    .el-autocomplete,
+    .el-cascader {
+        width: 100%;
+    }
+}
+// 设置模型表单-内容区域使用该铺满样式
+.m-form {
+    .m-form-item {
+        .m-form-item-content {
+            @include setCover
+        }
+    }
+}
+// 设置自定义表单-内容区域使用该铺满样式
+.base-form {
+    .el-form-item {
+        margin-right: 0px;
+        width: 100%;
+        .el-form-item__content {
+            @include setCover
+        }
+    }
+}
+// dialog--start
+$vPadding: 20px;
+$hPadding: 10px;
+.m-dialog {
+    .el-dialog__header {
+        padding: $vPadding $hPadding;
+        border-bottom: 1px solid $lineColor;
+        .m-dialog-title {
+            font-size: $fontL;
+            font-weight: bold;
+        }
+    }
+    .el-dialog__body {
+        padding: $hPadding $hPadding;
+        .el-scrollbar__wrap {
+            .m-base-form {
+                &.firForm {
+                    .form-title {
+                        display: none;
+                    }
+                }
+            }
+            .m-module-list {
+                padding-right: 20px;
+            }
+            .self-module-list {
+                margin-right: $space;
+                margin-bottom: $space;
+
+            }
+        }
+    }
+    .el-dialog__footer {
+        text-align: center;
+        padding: $padding;
+    }
+    &.noUsePaddding {
+        .el-dialog__body {
+            padding: 0;
+        }
+    }
+}
+// dialog--end
+// 富文本编辑器 --start
+// 富文本编辑框的等级太高,默认999，容易盖住其他元素
+.richText {
+    .edui-editor.edui-default {
+        z-index: 1 !important;
+    }
+}
+// 富文本编辑器 --end

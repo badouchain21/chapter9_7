@@ -1,0 +1,46 @@
+node {
+    def mvnHome = "/home/badousoft/servers/apache-maven"
+    def cleanDay =-10
+    def timeUnit = "year"
+    def profile = "test197"
+    def version = "release/1.1.0-release"
+    def dockerRepo="registry.badouchain.com"
+    def baseImage="registry.badouchain.com/java-alpine-openjdk8-jdk"
+    def KUBERNETES_MASTER="https://192.168.1.112:6443/"
+    def DOCKER_HOST="tcp://192.168.1.240:2375"
+    def KUBERNETES_NAMESPACE="baas-develop-1"
+    def SPRING_VERSION="5.1.2.RELEASE"
+    def LICENSE_CODE="CBA07A46355FE3C89455FB35687B6B6423D0A0FAB350E77215BDDD57A15B69B3"
+    def LICENSE_TIME="2020-12-30T12:00:00"
+
+    stage('checkout:safe-compile项目') {
+            echo "checkout:safe-compile"
+            checkout([$class: 'GitSCM', branches: [
+                [name: '*/1.0.0.RELEASE']
+            ], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [
+                [credentialsId: 'a8e2cfa3-2bf6-485c-8b69-486d7ebe9a66', url: 'http://gitlab.badousoft.com/badouchain/safeCompile.git']
+            ]])
+    }
+    stage('Install:safe-compile项目') {
+        echo "检查更新:safe-compile"
+        def result = sh returnStdout: true , script: 'git log -p -U1 --word-diff --since="$(date  +"%Y-%m-%d %H:%M:%S" -d  "'+cleanDay+' '+timeUnit+'")"  --name-only --oneline --reverse'
+        if (result != null && result != '') {
+            echo "Install:safe-compile项目"
+            sh "${mvnHome}/bin/mvn clean install -Dmaven.test.skip=true"
+        }
+    }
+
+    stage('发布:initial-asset-project项目') {
+        echo "checkout:initial-asset-project项目"
+        checkout([$class: 'GitSCM', branches: [
+            [name: '*/'+version]
+        ], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [
+            [credentialsId: 'a8e2cfa3-2bf6-485c-8b69-486d7ebe9a66', url: 'http://gitlab.badousoft.com/badouchain/initial-asset-project.git']
+        ]])
+    }
+    stage('发布:checkout:initial-asset-project项目') {
+        echo "发布:checkout:initial-asset-project项目"
+        sh "export KUBERNETES_TRUST_CERTIFICATES=true && export KUBERNETES_MASTER=${KUBERNETES_MASTER} && export FABRIC8_PROFILES=kubernetes && export DOCKER_HOST=${DOCKER_HOST} && export KUBERNETES_NAMESPACE=${KUBERNETES_NAMESPACE} && ${mvnHome}/bin/mvn  clean -Dmaven.test.skip=true -Dlicense.code=${LICENSE_CODE} -Dlicense.time=${LICENSE_TIME} fabric8:deploy -Dfabric8.generator.from=${baseImage} -P "+profile
+    }
+
+}

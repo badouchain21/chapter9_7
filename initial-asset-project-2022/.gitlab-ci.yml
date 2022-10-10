@@ -1,0 +1,11 @@
+image: ruby:2.1
+ 
+stages:
+  - test
+ 
+check:Project:
+  stage: test
+  script:
+    - mvn checkstyle:check
+  tags:
+    - 12.0.1

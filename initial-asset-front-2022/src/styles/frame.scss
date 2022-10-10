@@ -1,0 +1,121 @@
+// 存放框架级别样式
+.font { font-size: $font; }
+.fontL { font-size: $fontL; }
+.fontS { font-size: $fontS; }
+.fontC { color: $fontC; }
+.fontCL { color: $fontCL; }
+.fontCS { color: $fontCS; }
+
+.whiteC { color: #fff; }
+.bg-grey { background: $grey; }
+.noBorder { border: none !important; }
+.padVer {
+    padding-top: $padding;
+    padding-bottom: $padding;
+}
+.marVer {
+    margin-top: $space;
+    margin-bottom: $space;
+}
+.hoverC {
+    &:hover {
+        color: $primary;
+    }
+}
+.clearConBtn {
+    cursor: pointer;
+    color: $primary;
+    font-size: $font;
+    &:hover {
+        text-decoration: underline;
+    }
+}
+.pointer {
+    cursor: pointer;
+}
+// 优化不可编辑按钮透明度实现弱化效果；
+.el-button.is-disabled {
+    opacity: 0.6;
+}
+// 临时滚动条样式，只处理wekit  --start
+    // 滚动条的宽度
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+    //滚动条的滑块
+::-webkit-scrollbar-thumb {
+    background-color: rgba(144, 147, 153, 0.2);
+    border-radius: 4px;
+    &:hover {
+        background-color: rgba(144, 147, 153, 0.4);
+    }
+}
+// 临时滚动条样式，只处理wekit  --end
+
+// 系统颜色方案 --start
+// 提供主题方案类 .primaryC, .primaryBg
+//               .warningC, .warningBg
+//               .dangerC, .dangerBg
+//               .successC, .successBg
+@mixin defaultColor ($color: $primary) {
+    color: $color;
+}
+@mixin defaultBg ($bg: $primary) {
+    background: $bg;
+    color: #fff;
+}
+@each $className, $theme in (primary, $primary), 
+                            (warning, $warning), 
+                            (danger, $danger), 
+                            (success, $success){
+    .#{$className}C {
+        @include defaultColor(#{$theme});
+    }
+    .#{$className}Bg {
+        @include defaultBg(#{$theme});
+    }
+    .s-label-#{$className} {
+        color: #{$theme};
+        display: inline-block;
+        padding: 0px $padding;
+        height: $buttonHeight;
+        line-height: $buttonHeight;
+        background: rgba($theme, 0.1);
+        border-radius: $borderRadius;
+    }
+}
+// 系统颜色方案 --end
+
+// 盒子模型 --start
+@each $direction in (Top, Right, Bottom, Left){
+    .pad#{$direction} {
+        padding-#{$direction}: $padding;
+    }
+    .mar#{$direction} {
+        margin-#{$direction}: $space;
+    }
+}
+// 盒子模型 --end
+// popover 弹窗样式 -start
+.m-popover-checkbox {
+    .el-checkbox {
+        display: block;
+        .el-checkbox__label {
+            max-width: 200px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            vertical-align: top;
+            margin-bottom: $space/2;
+        }
+    }
+}
+// popover 弹窗样式 -end
+// 文本输入域 textarea  --start
+.noResize {
+    textarea{
+        resize: none; // 不显示可自由拖动尺寸按钮
+    }
+} 
+// 文本输入域 el-textarea  --end

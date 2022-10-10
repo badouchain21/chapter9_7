@@ -1,0 +1,18 @@
+<assembly>
+<!--        <fileSets>-->
+
+<!--        <fileSet>-->
+<!--            <outputDirectory>.</outputDirectory>-->
+<!--            <includes>-->
+<!--                <include>target/${project.artifactId}-${project.version}-executable-ark.jar</include>-->
+<!--            </includes>-->
+<!--        </fileSet>-->
+<!--        </fileSets>-->
+    <files>
+        <file>
+            <source>target/${project.artifactId}-${project.version}-encrypted.jar</source>
+            <outputDirectory>.</outputDirectory>
+        </file>
+    </files>
+
+</assembly>

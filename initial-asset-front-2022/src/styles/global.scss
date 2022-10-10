@@ -1,0 +1,136 @@
+// 屏幕宽度默认配置w-1920px,若w-1680px,需要相应缩小间隔,间隔差
+$screenDis: 0px;
+$screen-middle: 1680px;
+// ============================================================================
+// 项目头部标题区域高度
+$appHeaderTitleHeight: 42px;
+// 项目头部一级菜单区域高度
+$appHeaderFirstMenuHeight: 36px;
+// 项目二级菜单高度:默认左侧2级为56px
+$appHeaderSecHeight: 56px;
+// 三级菜单高度
+$appThirdMenuHeight: 40px;
+// 当前页面坐标导航高度
+$locationHeight: 36px;
+// 项目头部总和高度
+$appHeaderHeight: $appHeaderTitleHeight + $appHeaderFirstMenuHeight;
+// 右下主模块padding距离
+// $spaceDistance: 15px;
+// 最大级别间隔
+$space: 10px;
+// 页面级别通用padding
+$padding: 10px;
+// 项目圆角
+$borderRadius: 4px;
+// 左侧菜单宽度
+$sideBarWidth: 210px;
+// 左侧菜单收缩后宽度
+$sideBarHideWidth: 54px;
+// input高度; input与button同一行时button高度
+$buttonHeight: 32px;
+// input高度
+$inputHeight: 32px;
+// 页面底部固定栏高度
+$footerHeight: 44px;
+// ============================================================================
+// 主题色
+// $primary: #0473CE;
+// 色相
+$primaryHue: 207;  // 蓝色
+// $primaryHue: 8;  // 红色
+// $primaryHue: 0;  // 红色
+// $primaryHue: 39;  // 黄色
+// $primaryHue: 174;  // 绿色
+// $primaryHue: 565;  // 湛蓝
+// $primaryHue: 89; // 青色
+$primary: hsla($primaryHue, 97%, 41%, 1);
+// $primary: #252323;
+// $primary: #cc0000;
+// $primary: #F9BD16;
+// $primary: #8A7AFB;
+// $primary: #009688;
+$primaryLight: hsla($primaryHue, 97%, 41%, 0.05);
+
+// 面板默认背景色
+$contentOutBg: #F3F3F3;
+// 页面默认背景色
+$contentInBg: #fff;
+
+// 系统辅助色
+$danger: #f1594c;
+$success: #22b061;
+$warning: #ffa200;
+$operate: #8A7AFB;
+// 其余常规
+$white: #fff;
+$black: #000;
+$grey: #eee;
+// ============================================================================
+// 顶部一级菜单所在区域背景色
+$firAllBg: $primary;
+// 顶部一级菜单背景色
+$firMenuBg: rgba($white, 0.1);
+// 顶部一级菜单选中背景色
+$firMenuActiveBg: rgba($black, 0.2);
+// 左侧菜单所在区域背景色
+$secAllBg: hsla($primaryHue, 91%, 36%, 1);
+// 二级菜单背景色
+$secMenuBg: hsla($primaryHue, 91%, 36%, 1);
+// 三级及以下菜单背景色
+$moreMenuBg: rgba($black, 0.3);
+// 三级及以下菜单选中背景色
+$subMenuActiveBg: hsla($primaryHue, 97%, 52%, 1);
+// 菜单文本
+$menuText: rgba($white, 0.8);
+// 选中菜单文本
+$menuActiveText: $white;
+// 顶部标题所在模块渐变色目标色
+$appTitleGradientBg: hsla($primaryHue, 77%, 59%, 1);
+// ============================================================================
+// 表头背景色
+$tableTheadBg: #f9f9f9;
+// 表格斑马纹背景
+$tableStripeBg: #f6faff;
+// ============================================================================
+// 正文字体
+$font: 14px;
+$fontL: 16px;
+$fontS: 12px;
+// 正文颜色
+$fontC: #666;
+$fontCL: #333;
+$fontCT: #111;
+$fontCS: #999;
+$placeholderC: #ccc;
+// ============================================================================
+// 线颜色
+$lineColor: #eee;
+// TODO :表格模块线颜色,与线颜色方案待确认
+$tableLineColor: #e2e2e2;
+// ============================================================================
+// form表单需要参数
+$formViewBg: #fbfafa; // 表单查看背景色
+// $formViewBg: grey;
+$formTitleHeight: 40px;
+$labelWidth: 89px;  // history-89px
+$formItemDis: 10px;
+$formItemPad: 16px;
+$formItemPadR: 48px;
+// 搜索组件单个模块宽度
+$searchBarItemWidth: 180px;
+$headTitlePadding: 16px;
+
+// 导出变量
+:export {
+    // 底部固定栏高度
+    footerHeight: $footerHeight;
+    // 默认padding值
+    padding: $padding;
+    // 表单标题区域高度
+    formTitleHeight: $formTitleHeight;
+    primary: $primary;
+    danger: $danger;
+    success: $success;
+    warning: $warning;
+    operate: $operate;
+}  
